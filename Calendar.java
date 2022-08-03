@@ -1,41 +1,50 @@
-import java.util.Calendar;
+class MyCalendar {
+    class Event {
+        int start;
+        int end;
+        Event next;
 
-class Main{
-    class Event{
-        Event node;
-        int first;
-        int last;
-        Event(int f,int l){
-            first=f;
-            last=l;
+        Event(int s, int e) {
+            start = s;
+            end = e;
         }
     }
-    Event current;
-    Main(){
-        current=null;
-    }
-    boolean book(int start, int end){
-        Event newEvent=new Event(start, end);
-        if (current==null){
-            current=newEvent;
-            return true;
-        }
-        if (current.last<=newEvent.first){
-            current=newEvent;
-            return true;
-        }
-        else{
-            return false;
-        }
+
+    Event head;
+
+    public MyCalendar() {
+        head = null;
 
     }
-    public static void main(String[] args){
-        System.out.println("Code is runnig well.");
-        Main obj=new Main();
-        boolean result=obj.book(10, 20);
-        System.out.println(result);
-        System.out.println(obj.book(15, 25));
-        System.out.println(obj.book(20, 30));
+
+    public boolean book(int start, int end) {
+        Event newEvent = new Event(start, end);
+        if (head == null) {
+
+            head = newEvent;
+            return true;
+        }
+        Event temp = head;
+
+        while (temp.next != null) {
+
+           
+            if (newEvent.end <= temp.start || temp.end <= newEvent.start) {
+                temp = temp.next;
+            } else {
+
+                return false;
+            }
+        }
+        if (newEvent.end <= temp.start || temp.end <= newEvent.start) {
+            temp.next = newEvent;
+            temp = temp.next;
+            return true;
+        }
+        return false;
+
+        
     }
+
+
 }
-// [[], [10, 20], [15, 25], [20, 30]]
